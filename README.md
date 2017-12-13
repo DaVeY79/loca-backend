@@ -2,14 +2,14 @@
 
 ## Setup
 
-```js
+```sh
 brew install yarn
 yarn
 ```
 
 ## Running a local server
 
-```js
+```sh
 yarn debug
 ```
 
