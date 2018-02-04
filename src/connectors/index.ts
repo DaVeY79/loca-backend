@@ -1,1 +1,1 @@
-export { default as AccountKit } from './account_kit';
+export { default as AccountKit } from './AccountKit';

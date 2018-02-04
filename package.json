@@ -6,10 +6,10 @@
   "author": "Nihal Gonsalves <nihal@nihalgonsalves.com>",
   "license": "UNLICENSED",
   "scripts": {
-    "build": "babel src --out-dir lib --extensions '.ts'",
-    "start": "node lib/index.js",
-    "debug": "nodemon --exec babel-node -- --extensions '.ts' src/entrypoint.ts",
-    "lint": "eslint src/**/*.ts --fix",
+    "build": "tsc --project .",
+    "start": "node build/index.js",
+    "debug": "nodemon --exec ts-node src/index.ts",
+    "lint": "tslint --format stylish --fix src/*.ts src/**/*.ts",
     "test": "exit 0"
   },
   "devDependencies": {
@@ -19,21 +19,15 @@
     "@babel/preset-stage-0": "^7.0.0-beta.39",
     "@babel/preset-typescript": "^7.0.0-beta.39",
     "@types/node": "^8.0.29",
-    "babel-eslint": "^8.2.1",
-    "eslint": "^4.9.0",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-import-resolver-typescript": "^1.0.2",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-react": "^7.4.0",
     "nodemon": "^1.12.1",
     "ts-node": "3.3.0",
     "tslint": "^5.9.1",
-    "typescript": "2.5.2",
-    "typescript-eslint-parser": "^12.0.0"
+    "tslint-config-airbnb": "^5.5.0",
+    "typescript": "2.5.2"
   },
   "dependencies": {
     "@babel/cli": "^7.0.0-beta.39",
+    "apollo-link": "^1.0.7",
     "apollo-server-express": "^1.3.0",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
@@ -45,7 +39,7 @@
     "reflect-metadata": "^0.1.12",
     "request": "^2.83.0",
     "request-promise-native": "^1.0.5",
-    "typeorm": "^0.1.12",
+    "typeorm": "^0.2.0-alpha.15",
     "uuid": "^3.2.1"
   }
 }

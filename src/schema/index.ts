@@ -1,8 +1,8 @@
-import Query from './query';
-import Mutation from './mutation';
-import User from './user';
+import Mutation from './Mutation';
+import Query from './Query';
+import User from './User';
 
-const SchemaDefinition = `
+const schemaDefinition = `
   schema {
     query: Query
     mutation: Mutation
@@ -10,7 +10,7 @@ const SchemaDefinition = `
 `;
 
 export default [
-  SchemaDefinition,
+  schemaDefinition,
   Query,
   Mutation,
   User,

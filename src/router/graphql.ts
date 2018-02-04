@@ -1,30 +1,30 @@
-import express from 'express';
-import bodyParser from 'body-parser';
+import * as bodyParser from 'body-parser';
+import { Router } from 'express';
 
-import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
-import { makeExecutableSchema, addMockFunctionsToSchema } from 'graphql-tools';
+import { graphiqlExpress, graphqlExpress } from 'apollo-server-express';
+import { addMockFunctionsToSchema, makeExecutableSchema } from 'graphql-tools';
 
-import { FACEBOOK_APP_ID, FACEBOOK_APP_SECRET, ACCOUNT_KIT_API_VERSION } from '../config';
+import { ACCOUNT_KIT_API_VERSION, FACEBOOK_APP_ID, FACEBOOK_APP_SECRET } from '../config';
 
-import typeDefs from '../schema';
-import resolvers from '../resolvers';
 import * as connectors from '../connectors';
+import resolvers from '../resolvers';
+import schema from '../schema';
 
-const router = express.Router();
+const router = Router();
 
-const schema = makeExecutableSchema({ typeDefs, resolvers });
+const executableSchema = makeExecutableSchema({ resolvers, typeDefs: schema });
 
-addMockFunctionsToSchema({ schema, preserveResolvers: true });
+addMockFunctionsToSchema({ schema: executableSchema, preserveResolvers: true });
 
 router.use('/graphql', bodyParser.json(), graphqlExpress(() => ({
-  schema,
   context: {
     accountKit: new connectors.AccountKit({
+      apiVersion: ACCOUNT_KIT_API_VERSION,
       appId: FACEBOOK_APP_ID,
       appSecret: FACEBOOK_APP_SECRET,
-      apiVersion: ACCOUNT_KIT_API_VERSION,
     }),
   },
+  schema: executableSchema,
 })));
 
 router.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));

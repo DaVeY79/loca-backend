@@ -1,5 +1,5 @@
-import _ from 'lodash';
-import health from './health';
+import * as lodash from 'lodash';
 import authentication from './authentication';
+import health from './health';
 
-export default _.merge(health, authentication);
+export default lodash.merge(health, authentication);

@@ -1,11 +1,5 @@
 {
     "editor.tabSize": 2,
     "files.insertFinalNewline": true,
-    "files.trimFinalNewlines": true,
-    "eslint.packageManager": "yarn",
-    "eslint.validate": [
-        "typescript"
-    ],
-    "eslint.autoFixOnSave": true,
-    "eslint.alwaysShowStatus": true
+    "files.trimFinalNewlines": true
 } 

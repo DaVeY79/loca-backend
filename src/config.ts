@@ -1,4 +1,4 @@
-import uuid from 'uuid/v4';
+import * as uuid from 'uuid/v4';
 
 export const PORT = 3000;
 export const FACEBOOK_APP_ID = '308877922948528';

@@ -1,8 +1,8 @@
-import express from 'express';
+import { Router } from 'express';
+import accountKit from './accountKit';
 import graphql from './graphql';
-import accountKit from './account_kit';
 
-const router = express.Router();
+const router = Router();
 
 router.use(accountKit);
 router.use(graphql);

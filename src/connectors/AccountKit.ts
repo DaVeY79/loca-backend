@@ -1,15 +1,15 @@
-import url from 'url';
-import rp from 'request-promise-native';
 import crypto from 'crypto';
+import requestPromiseNative from 'request-promise-native';
+import url from 'url';
 
 export default class AccountKitConnector {
-  appId: string
-  appSecret: string
-  apiVersion: string
+  private static baseURL: string = 'https://graph.accountkit.com';
+  private static baseTokenExchangeURL: string = '/access_token';
+  private static baseMeURL: string = '/me';
 
-  static baseURL: string = 'https://graph.accountkit.com'
-  static baseTokenExchangeURL: string = '/access_token'
-  static baseMeURL: string = '/me'
+  public appId: string;
+  public appSecret: string;
+  public apiVersion: string;
 
   constructor({ appId, appSecret, apiVersion }) {
     this.appId = appId;
@@ -17,8 +17,7 @@ export default class AccountKitConnector {
     this.apiVersion = apiVersion;
   }
 
-  async call(code) {
-    // id, token_refresh_interval_sec n_
+  public async call(code) {
     const { access_token: clientAccessToken } = await this.tokenExchange(code);
     return this.me(clientAccessToken);
   }
@@ -27,34 +26,34 @@ export default class AccountKitConnector {
     return ['AA', this.appId, this.appSecret].join('|');
   }
 
-  tokenExchange(code): Promise<any> {
-    return rp.get({
+  private tokenExchange(code): Promise<any> {
+    return requestPromiseNative.get({
       url: this.buildURL(AccountKitConnector.baseTokenExchangeURL),
-      json: true,
       qs: {
-        grant_type: 'authorization_code',
         code,
         access_token: this.accessToken,
+        grant_type: 'authorization_code',
       },
+      json: true,
     });
   }
 
-  me(clientAccessToken): Promise<any> {
-    return rp.get({
+  private me(clientAccessToken): Promise<any> {
+    return requestPromiseNative.get({
       url: this.buildURL(AccountKitConnector.baseMeURL),
-      json: true,
       qs: {
         access_token: clientAccessToken,
         appsecret_proof: this.appSecretProof(clientAccessToken),
       },
+      json: true,
     });
   }
 
-  buildURL(endpoint): string {
+  private buildURL(endpoint): string {
     return url.resolve(`${AccountKitConnector.baseURL}/${this.apiVersion}`, endpoint);
   }
 
-  appSecretProof(clientAccessToken): string {
+  private appSecretProof(clientAccessToken): string {
     return crypto.createHmac('sha256', this.appSecret).update(clientAccessToken).digest('hex');
   }
 }

@@ -1,6 +1,6 @@
 import 'reflect-metadata';
-import express from 'express';
 
+import * as express from 'express';
 import router from './router';
 
 import { PORT } from './config';
@@ -11,7 +11,7 @@ app.set('view engine', 'pug');
 
 app.use(router);
 
-// eslint-disable-next-line no-console
+// tslint:disable-next-line:no-console
 app.listen(PORT, () => console.log('loca-backend is now running'));
 
 // import {createConnection} from "typeorm";

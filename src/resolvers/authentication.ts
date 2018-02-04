@@ -7,7 +7,7 @@ export default {
         const { phone: { number } } = await accountKit.call(code);
         return { phoneNumber: number };
       }
-      
+
       throw new Error('Something went wrong');
     },
   },
