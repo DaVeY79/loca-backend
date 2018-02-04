@@ -7,7 +7,7 @@ import { PORT } from './config';
 
 const app = express();
 
-app.set('view engine', 'pug');
+app.set('view engine', 'ejs');
 
 app.use(router);
 
