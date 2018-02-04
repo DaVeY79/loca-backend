@@ -59,3 +59,10 @@ typings/
 
 # dotenv environment variables file
 .env
+
+.idea/
+.vscode/
+tmp/
+temp/
+
+*.DS_Store
