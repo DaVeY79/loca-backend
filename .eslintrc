@@ -8,7 +8,8 @@
     "import/resolver": {
       "node": {
         "extensions": [".ts"]
-      }
+      },
+      "eslint-import-resolver-typescript": true
     }
   },
   "rules": {

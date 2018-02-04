@@ -1,0 +1,8 @@
+{
+    "eslint.packageManager": "yarn",
+    "eslint.validate": [
+        "typescript"
+    ],
+    "eslint.autoFixOnSave": true,
+    "eslint.alwaysShowStatus": true
+} 
