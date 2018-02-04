@@ -1,5 +1,5 @@
 # Build
-lib/
+build/
 
 # Logs
 logs
@@ -59,3 +59,9 @@ typings/
 
 # dotenv environment variables file
 .env
+
+.idea/
+tmp/
+temp/
+
+*.DS_Store

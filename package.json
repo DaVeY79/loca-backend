@@ -6,30 +6,40 @@
   "author": "Nihal Gonsalves <nihal@nihalgonsalves.com>",
   "license": "UNLICENSED",
   "scripts": {
-    "build": "babel src -d lib",
-    "start": "node lib/index.js",
-    "debug": "nodemon --exec babel-node -- src/index.js",
-    "lint": "eslint src/**/*.js",
+    "build": "tsc --project .",
+    "start": "node build/index.js",
+    "debug": "nodemon --exec ts-node src/index.ts",
+    "schema:dump": "ts-node bin/schema/dump.ts",
+    "schema:introspect": "apollo-codegen introspect-schema ./schema/schema.graphql --output ./schema/schema.json",
+    "schema:generateTypes": "gql2ts schema/schema.graphql --namespace LocaGQL --ignore-type-name-declaration --output-file ./src/schema/types.ts",
+    "schema:all": "yarn run schema:dump && yarn run schema:introspect && yarn run schema:generateTypes",
+    "lint": "tslint --format stylish --fix src/*.ts src/**/*.ts",
     "test": "exit 0"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-eslint": "^8.0.2",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-stage-0": "^6.24.1",
-    "eslint": "^4.9.0",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-react": "^7.4.0",
-    "nodemon": "^1.12.1"
+    "@types/node": "^8.0.29",
+    "apollo-codegen": "^0.18.3",
+    "gql2ts": "^1.4.1",
+    "nodemon": "^1.12.1",
+    "ts-node": "3.3.0",
+    "tslint": "^5.9.1",
+    "tslint-config-airbnb": "^5.5.0",
+    "typescript": "2.7.1"
   },
   "dependencies": {
+    "apollo-link": "^1.0.7",
     "apollo-server-express": "^1.3.0",
     "body-parser": "^1.18.2",
+    "ejs": "^2.5.7",
     "express": "^4.16.2",
     "graphql": "^0.11.7",
     "graphql-tools": "^2.13.0",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "pg": "^7.4.1",
+    "reflect-metadata": "^0.1.12",
+    "request": "^2.83.0",
+    "request-promise-native": "^1.0.5",
+    "typeorm": "^0.2.0-alpha.15",
+    "uuid": "^3.2.1"
   }
 }
