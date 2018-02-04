@@ -9,11 +9,17 @@
     "build": "tsc --project .",
     "start": "node build/index.js",
     "debug": "nodemon --exec ts-node src/index.ts",
+    "schema:dump": "ts-node bin/schema/dump.ts",
+    "schema:introspect": "apollo-codegen introspect-schema ./schema/schema.graphql --output ./schema/schema.json",
+    "schema:generateTypes": "gql2ts schema/schema.graphql --namespace LocaGQL --ignore-type-name-declaration --output-file ./src/schema/types.ts",
+    "schema:all": "yarn run schema:dump && yarn run schema:introspect && yarn run schema:generateTypes",
     "lint": "tslint --format stylish --fix src/*.ts src/**/*.ts",
     "test": "exit 0"
   },
   "devDependencies": {
     "@types/node": "^8.0.29",
+    "apollo-codegen": "^0.18.3",
+    "gql2ts": "^1.4.1",
     "nodemon": "^1.12.1",
     "ts-node": "3.3.0",
     "tslint": "^5.9.1",
