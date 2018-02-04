@@ -1,5 +1,6 @@
 import Query from './query';
 import Mutation from './mutation';
+import User from './user';
 
 const SchemaDefinition = `
   schema {
@@ -8,4 +9,9 @@ const SchemaDefinition = `
   }
 `;
 
-export default [SchemaDefinition, Query, Mutation];
+export default [
+  SchemaDefinition,
+  Query,
+  Mutation,
+  User,
+];

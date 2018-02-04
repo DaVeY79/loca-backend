@@ -1,21 +1,15 @@
+import 'reflect-metadata';
 import express from 'express';
-import bodyParser from 'body-parser';
-import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
-import { makeExecutableSchema, addMockFunctionsToSchema } from 'graphql-tools';
 
-import typeDefs from './schema';
-import resolvers from './resolvers';
+import router from './router';
 
 import { PORT } from './config';
 
 const app = express();
 
-const schema = makeExecutableSchema({ typeDefs, resolvers });
+app.set('view engine', 'pug');
 
-addMockFunctionsToSchema({ schema, preserveResolvers: true });
-
-app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
-app.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
+app.use(router);
 
 // eslint-disable-next-line no-console
 app.listen(PORT, () => console.log('loca-backend is now running'));

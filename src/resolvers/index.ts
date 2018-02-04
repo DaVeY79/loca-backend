@@ -1,5 +1,5 @@
+import _ from 'lodash';
 import health from './health';
+import authentication from './authentication';
 
-// use lodash.merge(health, someResolver, otherResolver); to add more
-
-export default health;
+export default _.merge(health, authentication);
