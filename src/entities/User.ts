@@ -1,8 +1,9 @@
-import { BaseEntity, Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 import { IAccountKitAccessToken, IAccountKitAccount } from '../connectors/AccountKit';
 import accountKit from '../router/accountKit';
 
 @Entity()
+@Index('unique_index_user_on_phone_country_and_number', ['phoneCountryCode', 'phoneNumber'], { unique: true })
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   public id: string;
@@ -20,9 +21,11 @@ export class User extends BaseEntity {
   public phoneNumber: string;
 
   @Column({ nullable: true })
+  @Index('unique_index_user_on_api_token', { unique: true })
   public apiToken: string;
 
   @Column({ nullable: true })
+  @Index('unique_index_user_on_account_kit_id', { unique: true })
   public accountKitID: string;
 
   @Column({ nullable: true })
