@@ -1,5 +1,14 @@
 export default `
   type Mutation {
-    accountKitSignup(code: String!, state: String!): String!
+    accountKitSignup(input: AccountKitSignupInput): AccountKitSignupOutput!
+  }
+
+  input AccountKitSignupInput {
+    code: String!
+  }
+
+  type AccountKitSignupOutput {
+    apiToken: String!
+    user: User!
   }
 `;

@@ -59,7 +59,7 @@
     AccountKit_OnInteractive = function(){
       AccountKit.init({
         appId: "<%= FACEBOOK_APP_ID %>",
-        state: "<%= CSRF %>",
+        state: "loca",
         version: "<%= ACCOUNT_KIT_API_VERSION %>",
         fbAppEventsEnabled: true,
         debug: true,
@@ -68,11 +68,17 @@
 
     const graphiql = '/graphiql';
 
-    const graphqlQuery = `
-      mutation AccountKitSignup($code: String!, $state: String!) {
-        accountKitSignup(code: $code, state: $state)
-      }
-    `;
+    const graphqlQuery = 
+
+encodeURIComponent(`mutation AccountKitSignup($input: AccountKitSignupInput!) {
+  accountKitSignup(input: $input) {
+    apiToken
+    user {
+      id
+      phoneNumber
+    }
+  }
+}`);
 
     const success = document.getElementById("successNotification");
     const error = document.getElementById("errorNotification");
@@ -94,10 +100,9 @@
       responseBox.classList.remove("is-hidden");
       if (response.status === "PARTIALLY_AUTHENTICATED") {
         displaySuccess();
-        const { code, state } = response;
-        const query = encodeURIComponent(graphqlQuery);
-        const variables = encodeURIComponent(JSON.stringify({ code, state }, 0, 2));
-        const url = `${graphiql}?query=${query}&variables=${variables}`;
+        const { code } = response;
+        const variables = encodeURIComponent(JSON.stringify({ input: { code } }, 0, 2));
+        const url = `${graphiql}?query=${graphqlQuery}&variables=${variables}`;
         window.location.href = url;
       } else if (response.status === "NOT_AUTHENTICATED" || response.status === "BAD_PARAMS") {
         displayError();
