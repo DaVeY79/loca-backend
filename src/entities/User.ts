@@ -1,6 +1,5 @@
-import { BaseEntity, Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
-import { IAccountKitAccessToken, IAccountKitAccount } from '../connectors/AccountKit';
-import accountKit from '../router/accountKit';
+import { BaseEntity, Column, Entity, Index, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Location } from './';
 
 @Entity()
 @Index('unique_index_user_on_phone_country_and_number', ['phoneCountryCode', 'phoneNumber'], { unique: true })
@@ -30,4 +29,7 @@ export class User extends BaseEntity {
 
   @Column({ nullable: true })
   public accountKitAccessToken: string;
+
+  @OneToMany(type => Location, location => location.user)
+  public locations: Location[];
 }

@@ -1,3 +1,4 @@
+import * as lodash from 'lodash';
 import { v4 as uuid } from 'uuid';
 
 import { IAccountKitAccessToken, IAccountKitAccount } from '../connectors/AccountKit';
@@ -26,7 +27,7 @@ export default {
                   })
                   .getOne();
 
-      const user = existingUser || new User();
+      const user = lodash.isUndefined(existingUser) ? existingUser : new User();
       user.accountKitID = account.id;
       user.accountKitAccessToken = accessToken.access_token;
       user.phoneCountryCode = account.phone.country_prefix;
