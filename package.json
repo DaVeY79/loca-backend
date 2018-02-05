@@ -8,7 +8,7 @@
   "scripts": {
     "build": "tsc --project . --pretty",
     "console": "ts-node --project . --require ./bin/playground.ts",
-    "start": "cd build/ && node index.js",
+    "start": "node build/index.js",
     "debug": "nodemon --exec ts-node --project . src/index.ts",
     "schema:dump": "ts-node --project . bin/schema/dump.ts",
     "schema:introspect": "apollo-codegen introspect-schema ./schema/schema.graphql --output ./schema/schema.json",
