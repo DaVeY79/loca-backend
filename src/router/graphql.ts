@@ -21,6 +21,8 @@ const executableSchema = makeExecutableSchema({ resolvers, typeDefs: schema });
 addMockFunctionsToSchema({ schema: executableSchema, preserveResolvers: true });
 
 export interface IGraphQLContext {
+  user: User | null;
+  connection: any;
   connectors: {
     accountKit: AccountKit,
   };

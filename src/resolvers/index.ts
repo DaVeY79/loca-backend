@@ -1,20 +1,25 @@
 import * as lodash from 'lodash';
 import authentication from './authentication';
 import health from './health';
+import location from './location';
 import user from './user';
 
 import { GraphQLFieldResolver } from 'graphql';
 import { IGraphQLContext } from '../router/graphql';
 
 const rawResolvers = lodash.merge(
-  health,
   authentication,
+  health,
+  location,
   user,
 );
 
 const requiresLogin = {
   Query: {
     me: true,
+  },
+  Mutation: {
+    createLocation: true,
   },
 };
 

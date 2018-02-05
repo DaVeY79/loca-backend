@@ -13,7 +13,7 @@ export default {
       root,
       { input }: { input: LocaGQL.IAccountKitSignupInput },
       { connectors: { accountKit } }: IGraphQLContext,
-    ): Promise<LocaGQL.IAccountKitSignupPayload> {
+    ): Promise<{ user: User, apiToken: string }> {
       const { accessToken, account } = await accountKit.call(input.code);
 
       const existingUser =
@@ -32,6 +32,7 @@ export default {
       user.accountKitAccessToken = accessToken.access_token;
       user.phoneCountryCode = account.phone.country_prefix;
       user.phoneNumber = account.phone.national_number;
+      user.username = account.phone.number;
       user.apiToken = uuid();
 
       return { user: await user.save(), apiToken: user.apiToken };

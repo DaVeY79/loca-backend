@@ -7,12 +7,14 @@
 
   type Query {
     me: User
+    location(virtualAddress: String!): Location
     health: String!
   }
 
 
   type Mutation {
-    accountKitSignup(input: AccountKitSignupInput): AccountKitSignupPayload!
+    accountKitSignup(input: AccountKitSignupInput!): AccountKitSignupPayload!
+    createLocation(input: CreateLocationInput!): CreateLocationPayload!
   }
 
   input AccountKitSignupInput {
@@ -24,10 +26,38 @@
     user: User!
   }
 
+  input CreateLocationInput {
+    access: LocationAccess
+    latitude: Float!
+    longitude: Float!
+    code: String!
+    description: String
+  }
+
+  type CreateLocationPayload {
+    location: Location!
+  }
+
 
   type User {
     id: ID!
     name: String
     email: String
     phoneNumber: String
+    locations: [Location!]!
+  }
+
+
+  enum LocationAccess {
+    PRIVATE
+    PUBLIC
+  }
+  type Location {
+    id: ID!
+    user: User!
+    access: LocationAccess!
+    code: String!
+    description: String!
+    latitude: Float!
+    longitude: Float!
   }

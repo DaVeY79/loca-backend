@@ -1,2 +1,2 @@
-export { User as User } from './User';
-export { Location as Location } from './Location';
+export { User } from './User';
+export { Location, LocationAccess } from './Location';

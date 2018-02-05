@@ -21,6 +21,7 @@ export declare namespace LocaGQL {
 
   interface IQuery {
     me: IUser | null;
+    location: ILocation | null;
     health: string;
   }
 
@@ -30,11 +31,27 @@ export declare namespace LocaGQL {
     name: string | null;
     email: string | null;
     phoneNumber: string | null;
+    locations: Array<ILocation>;
   }
+
+
+  interface ILocation {
+    id: string;
+    user: IUser;
+    access: ILocationAccessEnum;
+    code: string;
+    description: string;
+    latitude: number;
+    longitude: number;
+  }
+
+
+  type ILocationAccessEnum = 'PRIVATE' | 'PUBLIC';
 
 
   interface IMutation {
     accountKitSignup: IAccountKitSignupPayload;
+    createLocation: ICreateLocationPayload;
   }
 
 
@@ -46,6 +63,20 @@ export declare namespace LocaGQL {
   interface IAccountKitSignupPayload {
     apiToken: string;
     user: IUser;
+  }
+
+
+  interface ICreateLocationInput {
+    access?: ILocationAccessEnum | null;
+    latitude: number;
+    longitude: number;
+    code: string;
+    description?: string | null;
+  }
+
+
+  interface ICreateLocationPayload {
+    location: ILocation;
   }
 }
 
