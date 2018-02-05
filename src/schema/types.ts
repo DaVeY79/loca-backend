@@ -34,7 +34,7 @@ export declare namespace LocaGQL {
 
 
   interface IMutation {
-    accountKitSignup: IAccountKitSignupOutput;
+    accountKitSignup: IAccountKitSignupPayload;
   }
 
 
@@ -43,7 +43,7 @@ export declare namespace LocaGQL {
   }
 
 
-  interface IAccountKitSignupOutput {
+  interface IAccountKitSignupPayload {
     apiToken: string;
     user: IUser;
   }

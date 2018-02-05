@@ -1,4 +1,5 @@
 import * as crypto from 'crypto';
+import { ServerResponse } from 'http';
 import * as requestPromiseNative from 'request-promise-native';
 import * as url from 'url';
 
@@ -39,10 +40,14 @@ export class AccountKit {
     accessToken: IAccountKitAccessToken,
     account: IAccountKitAccount,
   }> {
-    const accessToken = await this.tokenExchange(code);
-    const account = await this.me(accessToken.access_token);
+    try {
+      const accessToken = await this.tokenExchange(code);
+      const account = await this.me(accessToken.access_token);
 
-    return { accessToken, account };
+      return { accessToken, account };
+    } catch (response) {
+      throw new Error('Error retrieving AccountKit details. Please try again.');
+    }
   }
 
   get accessToken(): string {

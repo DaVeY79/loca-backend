@@ -12,17 +12,28 @@ export default {
       root,
       { input }: { input: LocaGQL.IAccountKitSignupInput },
       { connectors: { accountKit } }: IGraphQLContext,
-    ): Promise<LocaGQL.IAccountKitSignupOutput> {
+    ): Promise<LocaGQL.IAccountKitSignupPayload> {
       const { accessToken, account } = await accountKit.call(input.code);
 
-      const user = new User();
+      const existingUser =
+        await User.createQueryBuilder('u')
+                  .where('u.accountKitID = :accountKitID')
+                  .orWhere('u.phoneCountryCode = :phoneCountryCode AND u.phoneNumber = :phoneNumber')
+                  .setParameters({
+                    accountKitID: account.id,
+                    phoneCountryCode: account.phone.country_prefix,
+                    phoneNumber: account.phone.national_number,
+                  })
+                  .getOne();
+
+      const user = existingUser || new User();
       user.accountKitID = account.id;
       user.accountKitAccessToken = accessToken.access_token;
       user.phoneCountryCode = account.phone.country_prefix;
       user.phoneNumber = account.phone.national_number;
       user.apiToken = uuid();
 
-      return { user, apiToken: user.apiToken };
+      return { user: await user.save(), apiToken: user.apiToken };
     },
   },
 };
