@@ -1,5 +1,7 @@
 import Mutation from './Mutation';
 import Query from './Query';
+
+import Location from './Location';
 import User from './User';
 
 const schemaDefinition = `
@@ -14,4 +16,5 @@ export default [
   Query,
   Mutation,
   User,
+  Location,
 ];

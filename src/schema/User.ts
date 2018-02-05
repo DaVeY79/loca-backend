@@ -4,5 +4,6 @@ export default `
     name: String
     email: String
     phoneNumber: String
+    locations: [Location!]!
   }
 `;

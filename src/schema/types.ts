@@ -1,7 +1,7 @@
 // tslint:disable
 // graphql typescript definitions
 
-declare namespace LocaGQL {
+export declare namespace LocaGQL {
   interface IGraphQLResponseRoot {
     data?: IQuery | IMutation;
     errors?: Array<IGraphQLResponseError>;
@@ -21,6 +21,7 @@ declare namespace LocaGQL {
 
   interface IQuery {
     me: IUser | null;
+    location: ILocation | null;
     health: string;
   }
 
@@ -30,11 +31,52 @@ declare namespace LocaGQL {
     name: string | null;
     email: string | null;
     phoneNumber: string | null;
+    locations: Array<ILocation>;
   }
 
 
+  interface ILocation {
+    id: string;
+    user: IUser;
+    access: ILocationAccessEnum;
+    code: string;
+    description: string;
+    latitude: number;
+    longitude: number;
+  }
+
+
+  type ILocationAccessEnum = 'PRIVATE' | 'PUBLIC';
+
+
   interface IMutation {
-    accountKitSignup: string;
+    accountKitSignup: IAccountKitSignupPayload;
+    createLocation: ICreateLocationPayload;
+  }
+
+
+  interface IAccountKitSignupInput {
+    code: string;
+  }
+
+
+  interface IAccountKitSignupPayload {
+    apiToken: string;
+    user: IUser;
+  }
+
+
+  interface ICreateLocationInput {
+    access?: ILocationAccessEnum | null;
+    latitude: number;
+    longitude: number;
+    code: string;
+    description?: string | null;
+  }
+
+
+  interface ICreateLocationPayload {
+    location: ILocation;
   }
 }
 
