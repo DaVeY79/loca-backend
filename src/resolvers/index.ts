@@ -3,6 +3,9 @@ import authentication from './authentication';
 import health from './health';
 import user from './user';
 
+import { GraphQLFieldResolver } from 'graphql';
+import { IGraphQLContext } from '../router/graphql';
+
 const rawResolvers = lodash.merge(
   health,
   authentication,
@@ -19,8 +22,8 @@ const resolvers = {
   ...rawResolvers,
   Query: lodash.mapValues(
     rawResolvers.Query,
-    (resolver, name) =>
-      (root, args, context, info) => {
+    (resolver: GraphQLFieldResolver<any, IGraphQLContext, any>, name: string) =>
+      (root, args, context, info): GraphQLFieldResolver<any, IGraphQLContext, any> | Promise<string> => {
         if (requiresLogin.Query[name] && !context.user) {
           return Promise.reject('Authentication required');
         }

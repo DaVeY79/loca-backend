@@ -27,7 +27,7 @@ export default {
                   })
                   .getOne();
 
-      const user = lodash.isUndefined(existingUser) ? existingUser : new User();
+      const user = lodash.isUndefined(existingUser) ? new User() : existingUser;
       user.accountKitID = account.id;
       user.accountKitAccessToken = accessToken.access_token;
       user.phoneCountryCode = account.phone.country_prefix;

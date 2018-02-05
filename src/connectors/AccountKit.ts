@@ -1,6 +1,6 @@
 import * as crypto from 'crypto';
 import { ServerResponse } from 'http';
-import * as requestPromiseNative from 'request-promise-native';
+import { get, RequestPromise } from 'request-promise-native';
 import * as url from 'url';
 
 export interface IAccountKitAccessToken {
@@ -41,8 +41,8 @@ export class AccountKit {
     account: IAccountKitAccount,
   }> {
     try {
-      const accessToken = await this.tokenExchange(code);
-      const account = await this.me(accessToken.access_token);
+      const accessToken: IAccountKitAccessToken  = await this.tokenExchange(code);
+      const account: IAccountKitAccount = await this.me(accessToken.access_token);
 
       return { accessToken, account };
     } catch (response) {
@@ -54,8 +54,8 @@ export class AccountKit {
     return ['AA', this.appId, this.appSecret].join('|');
   }
 
-  private tokenExchange(code): Promise<IAccountKitAccessToken> {
-    return requestPromiseNative.get({
+  private tokenExchange(code): RequestPromise {
+    return get({
       url: this.buildURL(AccountKit.baseTokenExchangeURL),
       qs: {
         code,
@@ -66,8 +66,8 @@ export class AccountKit {
     });
   }
 
-  private me(clientAccessToken): Promise<IAccountKitAccount> {
-    return requestPromiseNative.get({
+  private me(clientAccessToken): RequestPromise {
+    return get({
       url: this.buildURL(AccountKit.baseMeURL),
       qs: {
         access_token: clientAccessToken,
