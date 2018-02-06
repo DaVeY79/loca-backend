@@ -1,0 +1,19 @@
+{
+  "alias": "loca-backend",
+  "type": "docker",
+  "env": {
+    "TYPEORM_CONNECTION": "postgres",
+    "TYPEORM_HOST": "@loca-backend-db-host",
+    "TYPEORM_USERNAME": "@loca-backend-db-user",
+    "TYPEORM_PASSWORD": "@loca-backend-db-password",
+    "TYPEORM_PORT": "@loca-backend-db-port",
+    "TYPEORM_SYNCHRONIZE": "true",
+    "TYPEORM_LOGGING": "true",
+    "TYPEORM_ENTITIES": "build/entities/**/*.js",
+    "TYPEORM_MIGRATIONS": "build/migrations/**/*.js",
+    "TYPEORM_SUBSCRIBERS": "build/subscribers/**/*.js",
+    "TYPEORM_ENTITIES_DIR": "build/entities",
+    "TYPEORM_MIGRATIONS_DIR": "build/migrations",
+    "TYPEORM_SUBSCRIBERS_DIR": "build/subscribers"
+  }
+}
