@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, Index, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, Index, ManyToOne, PrimaryColumn } from 'typeorm';
 import { User } from './';
 
 import { PointTransformer } from './transformers';
@@ -11,7 +11,7 @@ export enum LocationAccess {
 @Entity()
 @Index('unique_index_location_on_user_id_and_code', ['user', 'code'], { unique: true })
 export class Location extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn({ default: () => 'gen_random_uuid()', type: 'uuid' })
   public id: string;
 
   @ManyToOne(type => User, user => user.locations, { nullable: false })
