@@ -28,8 +28,6 @@ export interface IGraphQLContext {
   };
 }
 
-const connection = createConnection();
-
 const tokenExtractor = /bearer (.*)/;
 
 const getUser = async (authorization) => {
@@ -43,21 +41,23 @@ const getUser = async (authorization) => {
   return null;
 };
 
-router.use('/graphql', bodyParser.json(), graphqlExpress(async req => ({
-  context: {
-    user: await getUser(req.headers.authorization),
-    connection: await connection,
-    connectors: {
-      accountKit: new AccountKit({
-        apiVersion: ACCOUNT_KIT_API_VERSION,
-        appId: FACEBOOK_APP_ID,
-        appSecret: FACEBOOK_APP_SECRET,
-      }),
+createConnection().then(async (connection) => {
+  router.use('/graphql', bodyParser.json(), graphqlExpress(async req => ({
+    context: {
+      connection,
+      user: await getUser(req.headers.authorization),
+      connectors: {
+        accountKit: new AccountKit({
+          apiVersion: ACCOUNT_KIT_API_VERSION,
+          appId: FACEBOOK_APP_ID,
+          appSecret: FACEBOOK_APP_SECRET,
+        }),
+      },
     },
-  },
-  schema: executableSchema,
-})));
+    schema: executableSchema,
+  })));
 
-router.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
+  router.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
+});
 
 export default router;

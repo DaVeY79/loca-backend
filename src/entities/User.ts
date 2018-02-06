@@ -1,10 +1,10 @@
-import { BaseEntity, Column, Entity, Index, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, Index, OneToMany, PrimaryColumn } from 'typeorm';
 import { Location } from './';
 
 @Entity()
 @Index('unique_index_user_on_phone_country_and_number', ['phoneCountryCode', 'phoneNumber'], { unique: true })
 export class User extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn({ default: () => 'gen_random_uuid()', type: 'uuid' })
   public id: string;
 
   @Column()

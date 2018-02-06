@@ -1,18 +1,18 @@
 {
-   "compilerOptions": {
-      "lib": ["es5", "es6", "esnext"],
-      "target": "es5",
-      "module": "commonjs",
-      "moduleResolution": "node",
-      "outDir": "./build",
-      "emitDecoratorMetadata": true,
-      "experimentalDecorators": true,
-      "sourceMap": true,
-      "allowSyntheticDefaultImports": false,
-      "listEmittedFiles": true,
-      "listFiles": false
-   },
-   "include": [
-      "src/**/*"
-    ]
+  "compilerOptions": {
+    "lib": ["es5", "es6", "esnext"],
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "./build",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": false,
+    "listEmittedFiles": true,
+    "listFiles": false
+  },
+  "include": [
+    "src/**/*"
+  ]
 }

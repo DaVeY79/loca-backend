@@ -1,7 +1,7 @@
 // tslint:disable
 // graphql typescript definitions
 
-export declare namespace LocaGQL {
+declare namespace LocaGQL {
   interface IGraphQLResponseRoot {
     data?: IQuery | IMutation;
     errors?: Array<IGraphQLResponseError>;
@@ -28,9 +28,10 @@ export declare namespace LocaGQL {
 
   interface IUser {
     id: string;
+    username: string;
     name: string | null;
     email: string | null;
-    phoneNumber: string | null;
+    phoneNumber: string;
     locations: Array<ILocation>;
   }
 
@@ -81,3 +82,4 @@ export declare namespace LocaGQL {
 }
 
 // tslint:enable
+export { LocaGQL };
