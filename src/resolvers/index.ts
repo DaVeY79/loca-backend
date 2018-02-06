@@ -23,18 +23,22 @@ const requiresLogin = {
   },
 };
 
-const resolvers = {
-  ...rawResolvers,
-  Query: lodash.mapValues(
-    rawResolvers.Query,
+const addAuthenticationCheck = (topLevel) =>
+  lodash.mapValues(
+    rawResolvers[topLevel],
     (resolver: GraphQLFieldResolver<any, IGraphQLContext, any>, name: string) =>
       (root, args, context, info): GraphQLFieldResolver<any, IGraphQLContext, any> | Promise<string> => {
-        if (requiresLogin.Query[name] && !context.user) {
-          return Promise.reject('Authentication required');
+        if (requiresLogin[topLevel][name] && !context.user) {
+          return Promise.reject('AUTHENTICATION_REQUIRED');
         }
         return resolver(root, args, context, info);
       },
-  ),
+  );
+
+const resolvers = {
+  ...rawResolvers,
+  Query: addAuthenticationCheck('Query'),
+  Mutation: addAuthenticationCheck('Mutation'),
 };
 
 export default resolvers;

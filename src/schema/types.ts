@@ -28,9 +28,10 @@ declare namespace LocaGQL {
 
   interface IUser {
     id: string;
+    username: string;
     name: string | null;
     email: string | null;
-    phoneNumber: string | null;
+    phoneNumber: string;
     locations: Array<ILocation>;
   }
 
