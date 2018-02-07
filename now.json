@@ -1,6 +1,6 @@
 {
   "alias": "loca-backend",
-  "type": "docker",
+  "type": "npm",
   "env": {
     "TYPEORM_CONNECTION": "postgres",
     "TYPEORM_HOST": "@loca-backend-db-host",
