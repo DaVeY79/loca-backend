@@ -52,6 +52,7 @@ declare namespace LocaGQL {
 
   interface IMutation {
     accountKitSignup: IAccountKitSignupPayload;
+    updateUser: IUserPayload;
     createLocation: ILocationPayload;
     updateLocation: ILocationPayload;
     deleteLocation: ILocationPayload;
@@ -65,6 +66,18 @@ declare namespace LocaGQL {
 
   interface IAccountKitSignupPayload {
     apiToken: string;
+    user: IUser;
+  }
+
+
+  interface IUpdateUserInput {
+    name?: string | null;
+    username: string;
+    email?: string | null;
+  }
+
+
+  interface IUserPayload {
     user: IUser;
   }
 

@@ -19,6 +19,7 @@ const requiresLogin = {
     me: true,
   },
   Mutation: {
+    updateUser: true,
     createLocation: true,
     updateLocation: true,
     deleteLocation: true,

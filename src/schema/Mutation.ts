@@ -1,6 +1,7 @@
 export default `
   type Mutation {
     accountKitSignup(input: AccountKitSignupInput!): AccountKitSignupPayload!
+    updateUser(input: UpdateUserInput!): UserPayload!
     createLocation(input: CreateLocationInput!): LocationPayload!
     updateLocation(input: UpdateLocationInput!): LocationPayload!
     deleteLocation(input: DeleteLocationInput!): LocationPayload!
@@ -12,6 +13,16 @@ export default `
 
   type AccountKitSignupPayload {
     apiToken: String!
+    user: User!
+  }
+
+  input UpdateUserInput {
+    name: String
+    username: String!
+    email: String
+  }
+
+  type UserPayload {
     user: User!
   }
 
