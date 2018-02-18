@@ -10,6 +10,7 @@
     "console": "ts-node --project . --require ./bin/playground.ts",
     "start": "node build/index.js",
     "debug": "nodemon --verbose --ext ts,json --exec ts-node --  --project . src/index.ts",
+    "deploy": "now && now alias",
     "schema:dump": "ts-node --project . bin/schema/dump.ts",
     "schema:introspect": "apollo-codegen introspect-schema ./schema/schema.graphql --output ./schema/schema.json",
     "schema:generateTypes": "gql2ts schema/schema.graphql --namespace LocaGQL --ignore-type-name-declaration --output-file ./src/schema/types.ts",
