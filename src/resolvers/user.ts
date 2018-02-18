@@ -25,14 +25,7 @@ export default {
         }
       });
 
-      try {
-        return { user: await user.save() };
-      } catch (error) {
-        if (error instanceof QueryFailedError && (error as any).constraint === 'unique_index_user_on_username') {
-          throw new Error('Sorry, that username is taken');
-        }
-        throw error;
-      }
+      return { user: await user.validateAndSave() };
     },
   },
 };

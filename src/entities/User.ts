@@ -1,5 +1,7 @@
-import { BaseEntity, Column, Entity, Index, OneToMany, PrimaryColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, Index, OneToMany, PrimaryColumn, QueryFailedError } from 'typeorm';
 import { Location } from './';
+
+import { IsEmail, validate } from 'class-validator';
 
 @Entity()
 @Index('unique_index_user_on_phone_country_and_number', ['phoneCountryCode', 'phoneNumber'], { unique: true })
@@ -15,6 +17,7 @@ export class User extends BaseEntity {
   public name?: string;
 
   @Column({ nullable: true })
+  @IsEmail()
   public email?: string;
 
   @Column()
@@ -36,4 +39,20 @@ export class User extends BaseEntity {
 
   @OneToMany(type => Location, location => location.user, { eager: true })
   public locations: Location[];
+
+  public async validateAndSave(): Promise<User> {
+    try {
+      const errors = await validate(this);
+      if (errors.length > 0) {
+        throw new Error('Validation failed');
+      }
+      await this.save();
+      return this;
+    } catch (error) {
+      if (error instanceof QueryFailedError && (error as any).constraint === 'unique_index_user_on_username') {
+        throw new Error('Sorry, that username is taken');
+      }
+      throw error;
+    }
+  }
 }

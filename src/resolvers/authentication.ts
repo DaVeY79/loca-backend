@@ -32,7 +32,7 @@ export default {
       user.accountKitAccessToken = accessToken.access_token;
       user.phoneCountryCode = account.phone.country_prefix;
       user.phoneNumber = account.phone.national_number;
-      user.username = account.phone.number;
+      user.username = user.username || account.phone.number;
       user.apiToken = uuid();
 
       return { user: await user.save(), apiToken: user.apiToken };

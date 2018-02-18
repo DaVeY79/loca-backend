@@ -24,14 +24,8 @@ export default {
       location.description = input.description || input.code;
       location.point = [input.latitude, input.longitude];
       location.user = context.user;
-      try {
-        return { location: await location.save() };
-      } catch (error) {
-        if (error instanceof QueryFailedError && (error as any).constraint === 'unique_index_location_on_user_id_and_code') {
-          throw new Error('You have already used that code');
-        }
-        throw error;
-      }
+
+      return { location: await location.validateAndSave() };
     },
     async deleteLocation(
       root,

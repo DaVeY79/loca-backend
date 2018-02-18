@@ -1,5 +1,7 @@
-import { BaseEntity, Column, Entity, Index, ManyToOne, PrimaryColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, Index, ManyToOne, PrimaryColumn, QueryFailedError } from 'typeorm';
 import { User } from './';
+
+import { IsAlphanumeric, validate } from 'class-validator';
 
 import { PointTransformer } from './transformers';
 
@@ -24,8 +26,25 @@ export class Location extends BaseEntity {
   public point: [number, number];
 
   @Column()
+  @IsAlphanumeric()
   public code: string;
 
   @Column()
   public description: string;
+
+  public async validateAndSave(): Promise<Location> {
+    try {
+      const errors = await validate(this);
+      if (errors.length > 0) {
+        throw new Error('Validation failed');
+      }
+      await this.save();
+      return this;
+    } catch (error) {
+      if (error instanceof QueryFailedError && (error as any).constraint === 'unique_index_location_on_user_id_and_code') {
+        throw new Error('You have already used that code');
+      }
+      throw error;
+    }
+  }
 }
