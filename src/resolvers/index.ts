@@ -20,10 +20,12 @@ const requiresLogin = {
   },
   Mutation: {
     createLocation: true,
+    updateLocation: true,
+    deleteLocation: true,
   },
 };
 
-const addAuthenticationCheck = (topLevel) =>
+const addAuthenticationCheck = topLevel =>
   lodash.mapValues(
     rawResolvers[topLevel],
     (resolver: GraphQLFieldResolver<any, IGraphQLContext, any>, name: string) =>

@@ -33,5 +33,16 @@ export default {
         throw error;
       }
     },
+    async deleteLocation(
+      root,
+      { input }: { input: LocaGQL.IDeleteLocationInput },
+      context: IGraphQLContext,
+    ): Promise<{ location: Location }> {
+      const location = await Location.findOne({ id: input.id, user: context.user });
+      if (!location) {
+        throw new Error('Not found');
+      }
+      return { location: await location.remove() };
+    },
   },
 };

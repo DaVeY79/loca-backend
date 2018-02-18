@@ -1,7 +1,9 @@
 export default `
   type Mutation {
     accountKitSignup(input: AccountKitSignupInput!): AccountKitSignupPayload!
-    createLocation(input: CreateLocationInput!): CreateLocationPayload!
+    createLocation(input: CreateLocationInput!): LocationPayload!
+    updateLocation(input: UpdateLocationInput!): LocationPayload!
+    deleteLocation(input: DeleteLocationInput!): LocationPayload!
   }
 
   input AccountKitSignupInput {
@@ -21,7 +23,19 @@ export default `
     description: String
   }
 
-  type CreateLocationPayload {
+  input UpdateLocationInput {
+    id: ID!
+    latitude: Float
+    longitude: Float
+    code: String
+    description: String
+  }
+
+  input DeleteLocationInput {
+    id: ID!
+  }
+
+  type LocationPayload {
     location: Location!
   }
 `;
