@@ -1,9 +1,6 @@
 # Build
 build/
 
-# Postgres Docker data
-pgdata/
-
 # Logs
 logs
 *.log
