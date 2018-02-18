@@ -2,7 +2,7 @@ import { QueryFailedError } from 'typeorm';
 
 import { LocaGQL } from '../schema/types';
 
-import { Location, LocationAccess } from '../entities/';
+import { Location, LocationAccess, User } from '../entities/';
 import { IGraphQLContext } from '../router/graphql';
 
 export default {
@@ -11,6 +11,26 @@ export default {
     longitude: (location: Location) => location.point[1],
   },
   Query: {
+    async location(root, { virtualAddress }: { virtualAddress: string }) {
+      if (!virtualAddress.includes('@')) {
+        throw new Error('Please enter a valid virtual address');
+      }
+
+      const [username, code] = virtualAddress.split('@');
+      const user = await User.findOne({ username });
+
+      if (!user) {
+        throw new Error('No such address');
+      }
+
+      const location = await Location.findOne({ user, code, access: LocationAccess.PUBLIC });
+
+      if (!location) {
+        throw new Error('No such address');
+      }
+
+      return location;
+    },
   },
   Mutation: {
     async createLocation(
