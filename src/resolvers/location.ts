@@ -13,20 +13,20 @@ export default {
   Query: {
     async location(root, { virtualAddress }: { virtualAddress: string }) {
       if (!virtualAddress.includes('@')) {
-        throw new Error('Please enter a valid virtual address');
+        return null;
       }
 
       const [username, code] = virtualAddress.split('@');
       const user = await User.findOne({ username });
 
       if (!user) {
-        throw new Error('No such address');
+        return null;
       }
 
       const location = await Location.findOne({ user, code, access: LocationAccess.PUBLIC });
 
       if (!location) {
-        throw new Error('No such address');
+        return null;
       }
 
       return location;
