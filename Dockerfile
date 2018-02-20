@@ -5,7 +5,7 @@ WORKDIR /usr/src/app
 
 ADD package.json ./
 ADD yarn.lock ./
-RUN yarn
+RUN yarn --pure-lockfile
 
 ADD . .
 RUN yarn build
