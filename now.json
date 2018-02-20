@@ -3,7 +3,7 @@
   "type": "npm",
   "env": {
     "TYPEORM_CONNECTION": "postgres",
-    "TYPEORM_HOST": "@loca-backend-db-host",
+    "TYPEORM_HOST": "@loca-backend-db-hostip",
     "TYPEORM_USERNAME": "@loca-backend-db-user",
     "TYPEORM_PASSWORD": "@loca-backend-db-password",
     "TYPEORM_PORT": "@loca-backend-db-port",
