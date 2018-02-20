@@ -1,9 +1,10 @@
+import { JsonWebTokenError } from 'jsonwebtoken';
 import { QueryFailedError } from 'typeorm';
 
 import { LocaGQL } from '../schema/types';
 
 import { Location, LocationAccess, User } from '../entities/';
-import { Location as LocationService } from '../services/';
+import { JWT, Location as LocationService } from '../services/';
 
 import { IGraphQLContext } from '../router/graphql';
 
@@ -13,7 +14,7 @@ export default {
     longitude: (location: Location) => location.point[1],
   },
   Query: {
-    async location(root, { virtualAddress }: { virtualAddress: string }) {
+    async location(root, { virtualAddress, token }: { virtualAddress: string, token?: string }) {
       if (!virtualAddress.includes('@')) {
         return null;
       }
@@ -25,13 +26,22 @@ export default {
         return null;
       }
 
-      const location = await Location.findOne({ user, code, access: LocationAccess.PUBLIC });
-
-      if (!location) {
-        return null;
+      if (token) {
+        try {
+          const payload: any = JWT.verify(token);
+          if (payload && payload.type === 'TEMPORARY_LOCATION_ACCESS' && payload.virtualAddress === virtualAddress) {
+            return await Location.findOne({ user, code, access: LocationAccess.PRIVATE });
+          }
+          throw new Error('Unauthorized access token');
+        } catch (error) {
+          if (error instanceof JsonWebTokenError) {
+            throw new Error('Invalid access token');
+          }
+          throw error;
+        }
       }
 
-      return location;
+      return await Location.findOne({ user, code, access: LocationAccess.PUBLIC });
     },
   },
   Mutation: {
