@@ -7,6 +7,7 @@ services:
       - yarn
       - debug
     environment:
+      FRONTEND_BASEURL: http://localhost:4000/
       JWT_SECRET: foobar
       JWT_ISSUER: loca-backend-dev
       TYPEORM_CONNECTION: postgres

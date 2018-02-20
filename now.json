@@ -2,6 +2,7 @@
   "alias": "loca-backend",
   "type": "npm",
   "env": {
+    "FRONTEND_BASEURL": "https://loca.now.sh/",
     "TYPEORM_CONNECTION": "postgres",
     "TYPEORM_HOST": "@loca-backend-db-hostip",
     "TYPEORM_USERNAME": "@loca-backend-db-user",

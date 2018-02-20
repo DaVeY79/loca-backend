@@ -4,7 +4,8 @@ export default `
     updateUser(input: UpdateUserInput!): UserPayload!
     createLocation(input: CreateLocationInput!): LocationPayload!
     updateLocation(input: UpdateLocationInput!): LocationPayload!
-    deleteLocation(input: DeleteLocationInput!): LocationPayload!
+    deleteLocation(input: LocationIDInput!): LocationPayload!
+    shareLocationLink(input: ShareLocationLinkInput!): ShareLocationLinkPayload!
   }
 
   input AccountKitSignupInput {
@@ -26,6 +27,10 @@ export default `
     user: User!
   }
 
+  input LocationIDInput {
+    id: ID!
+  }
+
   input CreateLocationInput {
     access: LocationAccess
     latitude: Float!
@@ -42,11 +47,17 @@ export default `
     description: String
   }
 
-  input DeleteLocationInput {
-    id: ID!
-  }
-
   type LocationPayload {
     location: Location!
+  }
+
+  input ShareLocationLinkInput {
+    id: ID!
+    expirySeconds: Int
+  }
+
+  type ShareLocationLinkPayload {
+    location: Location!
+    link: String!
   }
 `;

@@ -56,6 +56,7 @@ declare namespace LocaGQL {
     createLocation: ILocationPayload;
     updateLocation: ILocationPayload;
     deleteLocation: ILocationPayload;
+    shareLocationLink: IShareLocationLinkPayload;
   }
 
 
@@ -105,8 +106,20 @@ declare namespace LocaGQL {
   }
 
 
-  interface IDeleteLocationInput {
+  interface ILocationIDInput {
     id: string;
+  }
+
+
+  interface IShareLocationLinkInput {
+    id: string;
+    expirySeconds?: number | null;
+  }
+
+
+  interface IShareLocationLinkPayload {
+    location: ILocation;
+    link: string;
   }
 }
 

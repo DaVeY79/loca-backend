@@ -17,7 +17,8 @@
     updateUser(input: UpdateUserInput!): UserPayload!
     createLocation(input: CreateLocationInput!): LocationPayload!
     updateLocation(input: UpdateLocationInput!): LocationPayload!
-    deleteLocation(input: DeleteLocationInput!): LocationPayload!
+    deleteLocation(input: LocationIDInput!): LocationPayload!
+    shareLocationLink(input: ShareLocationLinkInput!): ShareLocationLinkPayload!
   }
 
   input AccountKitSignupInput {
@@ -39,6 +40,10 @@
     user: User!
   }
 
+  input LocationIDInput {
+    id: ID!
+  }
+
   input CreateLocationInput {
     access: LocationAccess
     latitude: Float!
@@ -55,12 +60,18 @@
     description: String
   }
 
-  input DeleteLocationInput {
-    id: ID!
-  }
-
   type LocationPayload {
     location: Location!
+  }
+
+  input ShareLocationLinkInput {
+    id: ID!
+    expirySeconds: Int
+  }
+
+  type ShareLocationLinkPayload {
+    location: Location!
+    link: String!
   }
 
 

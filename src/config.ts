@@ -7,11 +7,13 @@ export const FACEBOOK_APP_SECRET = '1ec3b15507392b4e226871cdce727a05';
 export const ACCOUNT_KIT_API_VERSION = 'v1.1';
 
 const {
+  FRONTEND_BASEURL,
   JWT_SECRET,
   JWT_ISSUER,
 } = process.env;
 
 export {
+  FRONTEND_BASEURL,
   JWT_SECRET,
   JWT_ISSUER,
 };

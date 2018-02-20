@@ -3,6 +3,8 @@ import { QueryFailedError } from 'typeorm';
 import { LocaGQL } from '../schema/types';
 
 import { Location, LocationAccess, User } from '../entities/';
+import { Location as LocationService } from '../services/';
+
 import { IGraphQLContext } from '../router/graphql';
 
 export default {
@@ -49,7 +51,7 @@ export default {
     },
     async deleteLocation(
       root,
-      { input }: { input: LocaGQL.IDeleteLocationInput },
+      { input }: { input: LocaGQL.ILocationIDInput },
       context: IGraphQLContext,
     ): Promise<{ location: Location }> {
       const location = await Location.findOne({ id: input.id, user: context.user });
@@ -57,6 +59,20 @@ export default {
         throw new Error('Not found');
       }
       return { location: await location.remove() };
+    },
+    async shareLocationLink(
+      root,
+      { input }: { input: LocaGQL.IShareLocationLinkInput },
+      context: IGraphQLContext,
+    ): Promise<{ location: Location, link: string }> {
+      const location = await Location.findOne({ id: input.id, user: context.user });
+      if (!location) {
+        throw new Error('Not found');
+      }
+      return {
+        location,
+        link: LocationService.getShareableLink({ location, expirySeconds: input.expirySeconds }),
+      };
     },
   },
 };
