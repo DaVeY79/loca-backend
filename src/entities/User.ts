@@ -37,7 +37,7 @@ export class User extends BaseEntity {
   @Column({ nullable: true })
   public accountKitAccessToken: string;
 
-  @OneToMany(type => Location, location => location.user, { eager: true })
+  @OneToMany(type => Location, location => location.user)
   public locations: Location[];
 
   public async validateAndSave(): Promise<User> {

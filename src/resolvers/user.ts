@@ -1,4 +1,4 @@
-import { User } from '../entities';
+import { Location, User } from '../entities';
 import { IGraphQLContext } from '../router/graphql';
 import { LocaGQL } from '../schema/types';
 
@@ -7,6 +7,7 @@ import { QueryFailedError } from 'typeorm';
 export default {
   User: {
     phoneNumber: (user: User) => `+${user.phoneCountryCode} ${user.phoneNumber}`,
+    locations: (user: User) => Location.find({ where: { user } }),
   },
   Query: {
     me: (root, params, context) => context.user,

@@ -16,7 +16,7 @@ export class Location extends BaseEntity {
   @PrimaryColumn({ default: () => 'gen_random_uuid()', type: 'uuid' })
   public id: string;
 
-  @ManyToOne(type => User, user => user.locations, { nullable: false })
+  @ManyToOne(type => User, user => user.locations, { nullable: false, eager: true })
   public user: User;
 
   @Column({ default: LocationAccess.PRIVATE })
