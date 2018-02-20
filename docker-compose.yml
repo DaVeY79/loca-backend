@@ -7,6 +7,8 @@ services:
       - yarn
       - debug
     environment:
+      JWT_SECRET: foobar
+      JWT_ISSUER: loca-backend-dev
       TYPEORM_CONNECTION: postgres
       TYPEORM_HOST: postgres
       TYPEORM_USERNAME: postgres
