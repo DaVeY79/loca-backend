@@ -11,5 +11,6 @@ export default `
     description: String!
     latitude: Float!
     longitude: Float!
+    virtualAddress: String!
   }
 `;

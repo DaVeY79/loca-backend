@@ -44,6 +44,7 @@ declare namespace LocaGQL {
     description: string;
     latitude: number;
     longitude: number;
+    virtualAddress: string;
   }
 
 

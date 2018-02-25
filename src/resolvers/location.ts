@@ -12,6 +12,7 @@ export default {
   Location: {
     latitude: (location: Location) => location.point[0],
     longitude: (location: Location) => location.point[1],
+    virtualAddress: (location: Location) => LocationService.getVirtualAddress(location),
   },
   Query: {
     async location(root, { virtualAddress, token }: { virtualAddress: string, token?: string }) {
