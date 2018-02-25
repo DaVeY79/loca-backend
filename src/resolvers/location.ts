@@ -68,7 +68,9 @@ export default {
       if (!location) {
         throw new Error('Not found');
       }
-      return { location: await location.remove() };
+      await location.remove();
+      location.id = input.id;
+      return { location };
     },
     async shareLocationLink(
       root,

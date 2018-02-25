@@ -14,13 +14,13 @@ export class Location {
   ): string {
     const virtualAddress = Location.getVirtualAddress(location);
     if (location.access === entities.LocationAccess.PUBLIC) {
-      return resolve(FRONTEND_BASEURL, `/virtualAddress/${virtualAddress}`);
+      return resolve(FRONTEND_BASEURL, `/vA/${virtualAddress}`);
     }
     const token = JWT.sign(
       { virtualAddress, type: 'TEMPORARY_LOCATION_ACCESS' },
       { expiresIn: expirySeconds ? `${expirySeconds} seconds` : Location.DEFAULT_LINK_VALIDITY },
     );
-    return resolve(FRONTEND_BASEURL, `/virtualAddress/${virtualAddress}?token=${token}`);
+    return resolve(FRONTEND_BASEURL, `/#/vA/${virtualAddress}?token=${token}`);
   }
   private static DEFAULT_LINK_VALIDITY = '1 hour';
 }
