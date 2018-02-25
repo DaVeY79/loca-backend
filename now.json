@@ -3,6 +3,8 @@
   "type": "npm",
   "env": {
     "FRONTEND_BASEURL": "https://loca.now.sh/",
+    "JWT_SECRET": "@loca-backend-jwt-secret",
+    "JWT_ISSUER": "loca-backend.now.sh",
     "TYPEORM_CONNECTION": "postgres",
     "TYPEORM_HOST": "@loca-backend-db-hostip",
     "TYPEORM_USERNAME": "@loca-backend-db-user",
