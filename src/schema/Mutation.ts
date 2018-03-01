@@ -6,6 +6,9 @@ export default `
     updateLocation(input: UpdateLocationInput!): LocationPayload!
     deleteLocation(input: LocationIDInput!): LocationPayload!
     shareLocationLink(input: ShareLocationLinkInput!): ShareLocationLinkPayload!
+    requestLocationAccess(input: LocationVAInput!): LocationAccessPayload!
+    grantLocationAccess(input: LocationAuthorizationIDInput!): LocationAccessPayload!
+    deleteLocationAccess(input: LocationAuthorizationIDInput!): LocationAccessPayload!
   }
 
   input AccountKitSignupInput {
@@ -59,5 +62,17 @@ export default `
   type ShareLocationLinkPayload {
     location: Location!
     link: String!
+  }
+
+  input LocationVAInput {
+    virtualAddress: String!
+  }
+
+  input LocationAuthorizationIDInput {
+    id: ID!
+  }
+
+  type LocationAccessPayload {
+    locationAuthorization: LocationAuthorization!
   }
 `;

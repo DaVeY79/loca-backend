@@ -1,5 +1,5 @@
-import { BaseEntity, Column, Entity, Index, ManyToOne, PrimaryColumn, QueryFailedError } from 'typeorm';
-import { User } from './';
+import { BaseEntity, Column, Entity, Index, ManyToOne, OneToMany, PrimaryColumn, QueryFailedError } from 'typeorm';
+import { LocationAuthorization, User } from './';
 
 import { IsAlphanumeric, validate } from 'class-validator';
 
@@ -21,6 +21,9 @@ export class Location extends BaseEntity {
 
   @Column({ default: LocationAccess.PRIVATE })
   public access: LocationAccess;
+
+  @OneToMany(type => LocationAuthorization, authorizations => authorizations.location)
+  public authorizations: LocationAuthorization[];
 
   @Column('point', { transformer: new PointTransformer() })
   public point: [number, number];

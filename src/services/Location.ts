@@ -22,5 +22,19 @@ export class Location {
     );
     return resolve(FRONTEND_BASEURL, `/#/vA/${virtualAddress}?token=${token}`);
   }
+  public static async findByVirtualAddress(virtualAddress: string): Promise<entities.Location> {
+    if (!virtualAddress.includes('@')) {
+      return null;
+    }
+
+    const [username, code] = virtualAddress.split('@');
+    const user = await entities.User.findOne({ username });
+
+    if (!user) {
+      return null;
+    }
+
+    return entities.Location.findOne({ user, code });
+  }
   private static DEFAULT_LINK_VALIDITY = '1 hour';
 }

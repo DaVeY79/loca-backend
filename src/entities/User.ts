@@ -1,5 +1,5 @@
 import { BaseEntity, Column, Entity, Index, OneToMany, PrimaryColumn, QueryFailedError } from 'typeorm';
-import { Location } from './';
+import { Location, LocationAuthorization } from './';
 
 import { IsEmail, validate } from 'class-validator';
 
@@ -39,6 +39,12 @@ export class User extends BaseEntity {
 
   @OneToMany(type => Location, location => location.user)
   public locations: Location[];
+
+  @OneToMany(type => LocationAuthorization, authorizations => authorizations.owner)
+  public locationRequests: LocationAuthorization[];
+
+  @OneToMany(type => LocationAuthorization, authorizations => authorizations.viewer)
+  public locationGrants: LocationAuthorization[];
 
   public async validateAndSave(): Promise<User> {
     try {

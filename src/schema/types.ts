@@ -22,6 +22,10 @@ declare namespace LocaGQL {
   interface IQuery {
     me: IUser | null;
     location: ILocation | null;
+    locations: Array<ILocation>;
+    locationsRequestedByMe: Array<ILocationAuthorization>;
+    locationsRequestedFromMe: Array<ILocationAuthorization>;
+    locationsGrantedToMe: Array<ILocation>;
     health: string;
   }
 
@@ -51,6 +55,18 @@ declare namespace LocaGQL {
   type ILocationAccessEnum = 'PRIVATE' | 'PUBLIC';
 
 
+  interface ILocationAuthorization {
+    id: string;
+    owner: IUser;
+    viewer: IUser;
+    location: ILocation | null;
+    status: ILocationAuthorizationStatusEnum;
+  }
+
+
+  type ILocationAuthorizationStatusEnum = 'REQUESTED' | 'APPROVED';
+
+
   interface IMutation {
     accountKitSignup: IAccountKitSignupPayload;
     updateUser: IUserPayload;
@@ -58,6 +74,9 @@ declare namespace LocaGQL {
     updateLocation: ILocationPayload;
     deleteLocation: ILocationPayload;
     shareLocationLink: IShareLocationLinkPayload;
+    requestLocationAccess: ILocationAccessPayload;
+    grantLocationAccess: ILocationAccessPayload;
+    deleteLocationAccess: ILocationAccessPayload;
   }
 
 
@@ -121,6 +140,21 @@ declare namespace LocaGQL {
   interface IShareLocationLinkPayload {
     location: ILocation;
     link: string;
+  }
+
+
+  interface ILocationVAInput {
+    virtualAddress: string;
+  }
+
+
+  interface ILocationAccessPayload {
+    locationAuthorization: ILocationAuthorization;
+  }
+
+
+  interface ILocationAuthorizationIDInput {
+    id: string;
   }
 }
 
