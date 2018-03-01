@@ -17,12 +17,19 @@ const rawResolvers = lodash.merge(
 const requiresLogin = {
   Query: {
     me: true,
+    locationsRequestedByMe: true,
+    locationsRequestedFromMe: true,
+    locationsGrantedToMe: true,
   },
   Mutation: {
     updateUser: true,
     createLocation: true,
     updateLocation: true,
     deleteLocation: true,
+    shareLocationLink: true,
+    requestLocationAccess: true,
+    grantLocationAccess: true,
+    deleteLocationAccess: true,
   },
 };
 

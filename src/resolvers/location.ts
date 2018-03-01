@@ -34,7 +34,7 @@ export default {
       }
 
       const isPublic = location.access === LocationAccess.PUBLIC;
-      const isOwner = location.user.id === context.user.id;
+      const isOwner = context.user && location.user.id === context.user.id;
 
       if (isPublic || isOwner) {
         return location;

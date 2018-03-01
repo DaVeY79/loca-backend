@@ -22,7 +22,6 @@ declare namespace LocaGQL {
   interface IQuery {
     me: IUser | null;
     location: ILocation | null;
-    locations: Array<ILocation>;
     locationsRequestedByMe: Array<ILocationAuthorization>;
     locationsRequestedFromMe: Array<ILocationAuthorization>;
     locationsGrantedToMe: Array<ILocation>;
