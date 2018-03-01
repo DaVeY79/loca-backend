@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, Index, ManyToOne, PrimaryColumn, QueryFailedError } from 'typeorm';
+import { BaseEntity, Column, Entity, Index, ManyToOne, PrimaryColumn } from 'typeorm';
 import { Location, User } from './';
 
 export enum LocationAuthorizationStatus {
@@ -21,7 +21,7 @@ export class LocationAuthorization extends BaseEntity {
   @ManyToOne(type => Location, location => location.authorizations, { nullable: false, eager: true })
   public location: Location;
 
-  @Column({ default: LocationAuthorizationStatus.REQUESTED })
+  @Column({ nullable: false, default: LocationAuthorizationStatus.REQUESTED })
   public status: LocationAuthorizationStatus;
 
 }

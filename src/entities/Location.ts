@@ -1,5 +1,5 @@
 import { BaseEntity, Column, Entity, Index, ManyToOne, OneToMany, PrimaryColumn, QueryFailedError } from 'typeorm';
-import { LocationAuthorization, User } from './';
+import { EphemeralToken, LocationAuthorization, User } from './';
 
 import { IsAlphanumeric, validate } from 'class-validator';
 
@@ -24,6 +24,9 @@ export class Location extends BaseEntity {
 
   @OneToMany(type => LocationAuthorization, authorizations => authorizations.location)
   public authorizations: LocationAuthorization[];
+
+  @OneToMany(type => EphemeralToken, token => token.location)
+  public tokens: EphemeralToken[];
 
   @Column('point', { transformer: new PointTransformer() })
   public point: [number, number];

@@ -1,9 +1,8 @@
-import { JsonWebTokenError } from 'jsonwebtoken';
 import { QueryFailedError } from 'typeorm';
 
 import { LocaGQL } from '../schema/types';
 
-import { Location, LocationAccess, LocationAuthorization, LocationAuthorizationStatus, User } from '../entities/';
+import { EphemeralToken, Location, LocationAccess, LocationAuthorization, LocationAuthorizationStatus, User } from '../entities/';
 import { JWT, Location as LocationService } from '../services/';
 
 import { IGraphQLContext } from '../router/graphql';
@@ -41,18 +40,14 @@ export default {
       }
 
       if (token) {
-        try {
-          const payload: any = JWT.verify(token);
-          if (payload && payload.type === 'TEMPORARY_LOCATION_ACCESS' && payload.virtualAddress === virtualAddress) {
-            return await location;
-          }
-          throw new Error('Unauthorized access token');
-        } catch (error) {
-          if (error instanceof JsonWebTokenError) {
-            throw new Error('Invalid access token');
-          }
-          throw error;
+        const ephemeralToken = await EphemeralToken.findOne({ location, key: token });
+        if (!ephemeralToken) {
+          throw new Error('Invalid token');
         }
+        if (Date.now() < ephemeralToken.expiry.getTime()) {
+          return location;
+        }
+        throw new Error('Expired token');
       }
 
       const hasLocationAccess = Boolean(await LocationAuthorization.findOne({
@@ -120,7 +115,7 @@ export default {
       }
       return {
         location,
-        link: LocationService.getShareableLink({ location, expirySeconds: input.expirySeconds }),
+        link: await LocationService.getShareableLink({ location, expirySeconds: input.expirySeconds }),
       };
     },
     async requestLocationAccess(
