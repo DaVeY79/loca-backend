@@ -27,7 +27,7 @@ export class Location {
     await token.save();
 
     return {
-      accessibleLink: `publicLink?token=${token.key}`,
+      accessibleLink: `${publicLink}?token=${token.key}`,
       regularLink: publicLink,
     };
   }
