@@ -139,7 +139,8 @@ declare namespace LocaGQL {
 
   interface IShareLocationLinkPayload {
     location: ILocation;
-    link: string;
+    accessibleLink: string;
+    regularLink: string;
   }
 
 

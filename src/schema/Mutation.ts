@@ -61,7 +61,8 @@ export default `
 
   type ShareLocationLinkPayload {
     location: Location!
-    link: String!
+    accessibleLink: String!
+    regularLink: String!
   }
 
   input LocationVAInput {

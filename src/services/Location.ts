@@ -12,10 +12,11 @@ export class Location {
     `${location.user.username}@${location.code}`
   public static async getShareableLink(
     { location, expirySeconds }: { location: entities.Location, expirySeconds?: number },
-  ): Promise<string> {
+  ): Promise<{ accessibleLink: string, regularLink: string }> {
     const virtualAddress = Location.getVirtualAddress(location);
+    const publicLink = resolve(FRONTEND_BASEURL, `/#/vA/${virtualAddress}`);
     if (location.access === entities.LocationAccess.PUBLIC) {
-      return resolve(FRONTEND_BASEURL, `/#/vA/${virtualAddress}`);
+      return { accessibleLink: publicLink, regularLink: publicLink };
     }
 
     const token = new entities.EphemeralToken();
@@ -25,7 +26,10 @@ export class Location {
 
     await token.save();
 
-    return resolve(FRONTEND_BASEURL, `/#/vA/${virtualAddress}?token=${token.key}`);
+    return {
+      accessibleLink: `publicLink?token=${token.key}`,
+      regularLink: publicLink,
+    };
   }
   public static async findByVirtualAddress(virtualAddress: string): Promise<entities.Location> {
     if (!virtualAddress.includes('@')) {

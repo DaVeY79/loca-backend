@@ -108,14 +108,14 @@ export default {
       root,
       { input }: { input: LocaGQL.IShareLocationLinkInput },
       context: IGraphQLContext,
-    ): Promise<{ location: Location, link: string }> {
+    ): Promise<{ location: Location, accessibleLink: string, regularLink: string }> {
       const location = await Location.findOne({ id: input.id, user: context.user });
       if (!location) {
         throw new Error('Not found');
       }
       return {
         location,
-        link: await LocationService.getShareableLink({ location, expirySeconds: input.expirySeconds }),
+        ...(await LocationService.getShareableLink({ location, expirySeconds: input.expirySeconds })),
       };
     },
     async requestLocationAccess(
