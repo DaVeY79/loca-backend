@@ -23,5 +23,6 @@ export default `
     viewer: User!
     location: Location
     status: LocationAuthorizationStatus!
+    virtualAddress: String!
   }
 `;

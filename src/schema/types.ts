@@ -61,6 +61,7 @@ declare namespace LocaGQL {
     viewer: IUser;
     location: ILocation | null;
     status: ILocationAuthorizationStatusEnum;
+    virtualAddress: string;
   }
 
 

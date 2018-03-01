@@ -16,21 +16,27 @@ export default {
   },
   LocationAuthorization: {
     location(locationAuthorization: LocationAuthorization, args, context: IGraphQLContext) {
+      const isPublic = locationAuthorization.location.access === LocationAccess.PUBLIC;
       const isOwner = locationAuthorization.owner.id === context.user.id;
       const isViewer = locationAuthorization.viewer.id === context.user.id;
       const isApproved = locationAuthorization.status === LocationAuthorizationStatus.APPROVED;
-      return (isOwner || (isViewer && isApproved)) ? locationAuthorization.location : null;
+      return (isPublic || isOwner || (isViewer && isApproved)) ? locationAuthorization.location : null;
     },
+    virtualAddress: (locationAuthorization: LocationAuthorization) =>
+      LocationService.getVirtualAddress(locationAuthorization.location),
   },
   Query: {
-    async location(root, { virtualAddress, token }: { virtualAddress: string, token?: string }) {
+    async location(root, { virtualAddress, token }: { virtualAddress: string, token?: string }, context: IGraphQLContext) {
       const location = await LocationService.findByVirtualAddress(virtualAddress);
 
       if (!location) {
         throw new Error('Not found');
       }
 
-      if (location.access === LocationAccess.PUBLIC) {
+      const isPublic = location.access === LocationAccess.PUBLIC;
+      const isOwner = location.user.id === context.user.id;
+
+      if (isPublic || isOwner) {
         return location;
       }
 
@@ -48,6 +54,18 @@ export default {
           throw error;
         }
       }
+
+      const hasLocationAccess = Boolean(await LocationAuthorization.findOne({
+        location,
+        status: LocationAuthorizationStatus.APPROVED,
+        viewer: context.user,
+      }));
+
+      if (hasLocationAccess) {
+        return location;
+      }
+
+      throw new Error('Token or access needed');
     },
     async locationsGrantedToMe(root, args, context: IGraphQLContext): Promise<Location[]> {
       const authorizations = await LocationAuthorization.find({ where: {
